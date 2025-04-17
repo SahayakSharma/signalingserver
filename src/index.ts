@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import cors from "cors";
-const io=new Server(3001,{
+
+const io=new Server(3000,{
     cors:{
         origin:"*"
     }
@@ -49,9 +49,15 @@ io.on("connection",(socket)=>{
         })
 
         socket.on("disconnect",()=>{
-            for(const room in roomid){
-                rooms[roomid]=rooms[roomid].filter((user:string)=>user!=userSocketId);
-                socket.to(room).emit("user-left",userSocketId);
+            // for(const room in roomid){
+            //     rooms[roomid]=rooms[roomid].filter((user:string)=>user!=userSocketId);
+            //     socket.to(room).emit("user-left",userSocketId);
+            // }
+            for(const roomid in rooms){
+                if(rooms[roomid].includes(userSocketId)){
+                    rooms[roomid]=rooms[roomid].filter((userid)=>userid!=userSocketId);
+                    socket.to(roomid).emit("user-left",userSocketId);
+                }
             }
             console.log("user disconnected : ",userSocketId)
         })
