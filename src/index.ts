@@ -49,10 +49,6 @@ io.on("connection",(socket)=>{
         })
 
         socket.on("disconnect",()=>{
-            // for(const room in roomid){
-            //     rooms[roomid]=rooms[roomid].filter((user:string)=>user!=userSocketId);
-            //     socket.to(room).emit("user-left",userSocketId);
-            // }
             for(const roomid in rooms){
                 if(rooms[roomid].includes(userSocketId)){
                     rooms[roomid]=rooms[roomid].filter((userid)=>userid!=userSocketId);
@@ -61,16 +57,23 @@ io.on("connection",(socket)=>{
             }
             console.log("user disconnected : ",userSocketId)
         })
+        socket.on("hang-up",()=>{
+            for(const roomid in rooms){
+                if(rooms[roomid].includes(userSocketId)){
+                    rooms[roomid]=rooms[roomid].filter((userid)=>userid!=userSocketId);
+                    socket.to(roomid).emit("user-left",userSocketId);
+                }
+            }
+            console.log("user left : ",userSocketId)
+        })
 
         socket.on("getroommembers",()=>{
             console.log(rooms);
         })
     })
-    socket.on("call",()=>{
-        socket.emit("call");
-    })
-    socket.on("get-online-people",()=>{
-        socket.emit("online-people",online)
+
+    socket.on("call",(target)=>{
+        
     })
     socket.on("disconnect",()=>{
         
