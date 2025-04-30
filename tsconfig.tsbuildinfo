@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/server.ts","./src/assets/activeUserData.ts","./src/assets/roomData.ts","./src/socket/index.ts","./src/socket/handlers/chat.handler.ts","./src/socket/handlers/meeting.handler.ts","./src/types/user.ts"],"version":"5.8.2"}
